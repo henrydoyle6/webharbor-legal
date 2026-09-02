@@ -27,3 +27,30 @@ a { color: #1459c7; }
 footer { margin-top: 44px; font-size: .9rem; }
 nav a { margin-right: 18px; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.demo-steps { padding-left: 1.5rem; }
+.demo-steps li { margin: 8px 0; }
+.demo-details { margin: 20px 0; }
+.demo-details div { display: grid; grid-template-columns: minmax(130px, 0.35fr) 1fr; gap: 14px; padding: 8px 0; border-bottom: 1px solid #e2e7f0; }
+.demo-details dt { font-weight: 600; }
+.demo-details dd { margin: 0; overflow-wrap: anywhere; }
+.demo-code { overflow-wrap: anywhere; word-break: break-word; }
+.demo-input { box-sizing: border-box; width: 100%; min-height: 44px; margin-top: 8px; padding: 9px 11px; border: 1px solid #c8d1df; border-radius: 10px; background: #fff; color: inherit; font: inherit; }
+.demo-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
+.demo-button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; box-sizing: border-box; padding: 9px 14px; border: 1px solid #1459c7; border-radius: 10px; background: #1459c7; color: #fff; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+.demo-button:hover { background: #0e47a2; color: #fff; }
+.demo-button-secondary { border-color: #9aa8bb; background: transparent; color: inherit; }
+.demo-button-secondary:hover { background: #edf2f8; color: inherit; }
+.demo-note { color: #667085; font-size: .95rem; }
+.demo-status { min-height: 1.6em; margin-bottom: 0; color: #1459c7; font-weight: 600; }
+.demo-check { margin-top: 18px; }
+@media (prefers-color-scheme: dark) {
+  .demo-details div { border-color: #2e3747; }
+  .demo-input { border-color: #3a4659; background: #111722; }
+  .demo-button-secondary:hover { background: #273143; }
+  .demo-status { color: #9bc1ff; }
+}
+@media (max-width: 640px) {
+  .demo-details div { grid-template-columns: 1fr; gap: 3px; }
+  .demo-button { width: 100%; }
+}

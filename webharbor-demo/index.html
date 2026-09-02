@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>WebHarbor Review Demo</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>WebHarbor Review Demo</h1>
+    <p class="muted">A controlled page for App Review. / 供 App Review 使用的受控页面。</p>
+    <nav>
+      <a href="../">WebHarbor</a>
+      <a href="../privacy/">Privacy / 隐私</a>
+      <a href="../support/">Support / 支持</a>
+    </nav>
+  </header>
+
+  <section class="card">
+    <h2>What this page demonstrates / 此页面演示内容</h2>
+    <p>This page uses only this browser's localStorage. It has no account, cookies, analytics, form submission, or developer backend.</p>
+    <p lang="zh-Hans">此页面只使用当前浏览器的 LocalStorage，不使用账户、Cookie、分析、表单提交或开发者后端。</p>
+    <ol class="demo-steps">
+      <li>Add this URL twice in WebHarbor.</li>
+      <li lang="zh-Hans">在 WebHarbor 中将此网址添加两次。</li>
+      <li>Save a different local nickname in each workspace, then relaunch the app.</li>
+      <li lang="zh-Hans">在两个工作区分别保存不同的本地昵称，然后重启 App。</li>
+      <li>Use Clear Website Data in one workspace. Its ID and nickname reset while the other workspace stays unchanged.</li>
+      <li lang="zh-Hans">在一个工作区使用“清除网站数据”。该工作区的 ID 和昵称会重置，另一个工作区不受影响。</li>
+    </ol>
+  </section>
+
+  <section class="card" aria-labelledby="workspace-heading">
+    <h2 id="workspace-heading">Workspace state / 工作区状态</h2>
+    <p class="demo-note">The origin is shared; the stored state is isolated by each WebHarbor WebKit data store.</p>
+    <p class="demo-note" lang="zh-Hans">两个入口使用相同来源，但每个 WebHarbor WebKit 数据仓中的本地状态彼此隔离。</p>
+    <dl class="demo-details">
+      <div><dt>Origin / 来源</dt><dd><code id="origin" class="demo-code">Loading…</code></dd></div>
+      <div><dt>Workspace ID / 工作区 ID</dt><dd><code id="workspace-id" class="demo-code">Loading…</code></dd></div>
+      <div><dt>Nickname / 昵称</dt><dd id="nickname-value">—</dd></div>
+    </dl>
+    <label for="nickname">Local nickname / 本地昵称</label>
+    <input id="nickname" class="demo-input" type="text" maxlength="80" autocomplete="off" aria-describedby="nickname-help">
+    <p id="nickname-help" class="demo-note">This value never leaves this page. / 此值不会离开此页面。</p>
+    <div class="demo-actions">
+      <button id="save-nickname" class="demo-button" type="button">Save nickname / 保存昵称</button>
+      <button id="clear-workspace" class="demo-button demo-button-secondary" type="button">Clear this workspace / 清除此工作区</button>
+    </div>
+    <p id="workspace-status" class="demo-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card" aria-labelledby="compatibility-heading">
+    <h2 id="compatibility-heading">Web compatibility checks / 网页兼容性检查</h2>
+    <div class="demo-check">
+      <label for="file-input">File upload / 文件上传</label>
+      <input id="file-input" class="demo-input" type="file" aria-describedby="file-help">
+      <p id="file-help" class="demo-note">Choose a file to verify the system picker. The file is not uploaded anywhere.</p>
+      <p lang="zh-Hans" class="demo-note">选择文件以验证系统选择器；文件不会上传到任何地方。</p>
+      <p id="file-name" class="demo-status" role="status" aria-live="polite"></p>
+    </div>
+    <div class="demo-actions">
+      <a class="demo-button" href="review-demo.pdf" download>Download static PDF / 下载静态 PDF</a>
+      <a class="demo-button demo-button-secondary" href="target.html" target="_blank" rel="noopener">Open target="_blank" page / 打开新窗口链接</a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Review URL / 审查网址</h2>
+    <p><code class="demo-code">https://henrydoyle6.github.io/webharbor-legal/webharbor-demo/</code></p>
+    <p class="muted">This demo is intentionally limited to local state and basic WebKit interactions. / 此演示页面仅用于本地状态和基本 WebKit 交互验证。</p>
+  </section>
+
+  <noscript>
+    <p class="card">JavaScript is required for the localStorage isolation check. / LocalStorage 隔离检查需要启用 JavaScript。</p>
+  </noscript>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const workspaceKey = "webharbor.review-demo.workspace-id.v1";
+  const nicknameKey = "webharbor.review-demo.nickname.v1";
+  const workspaceID = document.getElementById("workspace-id");
+  const nickname = document.getElementById("nickname");
+  const nicknameValue = document.getElementById("nickname-value");
+  const origin = document.getElementById("origin");
+  const status = document.getElementById("workspace-status");
+  const fileInput = document.getElementById("file-input");
+  const fileName = document.getElementById("file-name");
+
+  function randomID() {
+    if (globalThis.crypto && typeof globalThis.crypto.randomUUID === "function") {
+      return globalThis.crypto.randomUUID();
+    }
+    if (globalThis.crypto && typeof globalThis.crypto.getRandomValues === "function") {
+      const bytes = new Uint8Array(16);
+      globalThis.crypto.getRandomValues(bytes);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      const hex = Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+      return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+    }
+    return `local-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+  }
+
+  function getOrCreateWorkspaceID() {
+    let value = null;
+    try {
+      value = localStorage.getItem(workspaceKey);
+      if (!value) {
+        value = randomID();
+        localStorage.setItem(workspaceKey, value);
+      }
+    } catch (_) {
+      value = "local-storage-unavailable";
+    }
+    return value;
+  }
+
+  function readNickname() {
+    try { return localStorage.getItem(nicknameKey) || ""; } catch (_) { return ""; }
+  }
+
+  function render() {
+    const id = getOrCreateWorkspaceID();
+    const savedNickname = readNickname();
+    origin.textContent = window.location.origin;
+    workspaceID.textContent = id;
+    nickname.value = savedNickname;
+    nicknameValue.textContent = savedNickname || "—";
+    status.textContent = savedNickname
+      ? "Saved locally in this workspace. / 已保存在此工作区本地。"
+      : "No nickname saved yet. / 尚未保存昵称。";
+  }
+
+  document.getElementById("save-nickname").addEventListener("click", () => {
+    const value = nickname.value.trim().slice(0, 80);
+    try {
+      if (value) localStorage.setItem(nicknameKey, value);
+      else localStorage.removeItem(nicknameKey);
+    } catch (_) {
+      status.textContent = "Local storage is unavailable. / 本地存储不可用。";
+      return;
+    }
+    render();
+    status.textContent = value
+      ? "Nickname saved locally. / 昵称已保存在本地。"
+      : "Nickname cleared. / 昵称已清除。";
+  });
+
+  document.getElementById("clear-workspace").addEventListener("click", () => {
+    try { localStorage.clear(); } catch (_) { /* The status below remains useful. */ }
+    fileInput.value = "";
+    fileName.textContent = "";
+    render();
+    status.textContent = "Workspace data cleared and a new ID was created. / 工作区数据已清除，并已生成新的 ID。";
+  });
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) {
+      fileName.textContent = "File selection cancelled. / 已取消选择文件。";
+      return;
+    }
+    const size = `${Math.max(1, Math.round(file.size / 1024))} KB`;
+    fileName.textContent = `${file.name} · ${size} · Local only / 仅本地`;
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
