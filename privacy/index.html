@@ -8,11 +8,18 @@
 </head>
 <body>
 <main>
-  <header><h1>Privacy Policy</h1><p class="muted">WebHarbor · Last updated 2 September 2026</p><nav><a href="../">WebHarbor</a><a href="../support/">Support</a></nav></header>
+  <header><h1>Privacy Policy</h1><p class="muted">WebHarbor · Updated 14 September 2026 · 3.0 notification disclosure prepared for release</p><nav><a href="../">WebHarbor</a><a href="../support/">Support</a></nav></header>
   <section class="card lang">
     <article>
       <h2>English</h2>
-      <p>WebHarbor is a local-first iPhone app. We do not operate an account system, backend, analytics, advertising SDK, or developer server for your web spaces.</p>
+      <p>WebHarbor is a local-first iPhone app without advertising or analytics. Version 3.0 adds an optional notification gateway; the disclosures below apply only when you connect a workspace and the service is available. Earlier builds may not include these notification features. Notification availability depends on completed deployment and device validation.</p>
+      <h2>Optional notifications in 3.0</h2>
+      <p>After you opt in, notify.lihenry.com processes an encrypted Apple push device token, an installation credential hash, a random notification route identifier, language preference, and site user/group references to send reminders. For a Hezhang workspace, the gateway may also receive an encrypted, bounded summary containing the actor display name, amount and category so the alert can show those details when lock-screen details are enabled. It does not receive your WebKit data-store UUID, website cookies, passwords, memo text, record IDs or counterparties. Hidden-details subscriptions receive generic alert text. Apple delivers the notification through APNs.</p>
+      <p>In 3.0, connecting GitHub requires separate official GitHub App authorization. The gateway stores encrypted authorization credentials, verified GitHub identity, selected repository references and necessary event/target identifiers. Signed events are filtered for assigned Issues, direct review requests and failed or timed-out Actions. It does not synchronize the whole personal notification center or copy website login cookies. Availability is gated by deployment and verification.</p>
+      <p>Creating a private push entry sends its display name, HTTPS starting URL and random route to the gateway. Your server or script can send a message title, body and same-origin target URL. This content is encrypted at rest but must be processed to show messages; do not send passwords or secrets. Send credentials are stored in this device's Keychain; the server retains only their verification hashes. Invited websites can connect a restricted subscription after your confirmation, without obtaining your APNs token or global installation credential.</p>
+      <h2>Notification retention and removal</h2>
+      <p>3.0 stores necessary encrypted message content and routing/delivery records in a cloud inbox for 30 days from creation and keeps a bounded device cache. Earlier device-only history may be incomplete and is not reconstructed. Clearing notification history or deleting messages hides them from the inbox without clearing website data; deletion markers prevent reappearance during retries, and retained records expire under the retention period. Removing a source can also remove its history. Pairing tickets expire after 180 seconds; GitHub authorization sessions after 15 minutes.</p>
+      <p>Disconnecting or deleting a workspace disables its local route and queues server revocation if offline. GitHub credentials are removed from the active connector; encrypted credentials may be retained only to retry revocation while GitHub is unavailable. Installation credentials and inactive references may remain for authentication and stale-route protection. Contact us for server-side removal, or revoke the App directly in GitHub settings. Notifications are device-bound; losing the device credential requires reconnecting, not automatic cross-device recovery. Apple accepting a push does not guarantee that iOS displays it. Notification data is not used for advertising, analytics or tracking; message-open state is not sent back to websites by default.</p>
       <h2>Stored on your device</h2>
       <p>The app stores workspace metadata (URL, title, UUID, dates and icon filenames) in Application Support. Custom and downloaded icons are stored as local PNG files. Each workspace uses a named WebKit data store that may contain cookies, LocalStorage, IndexedDB and other data created by the website you open.</p>
       <h2>Network requests</h2>
@@ -26,7 +33,14 @@
     </article>
     <article lang="zh-Hans">
       <h2>简体中文</h2>
-      <p>WebHarbor 是一款本地优先的 iPhone App。我们不提供账户系统、后端、分析、广告 SDK，也不为您的网页工作区运行开发者服务器。</p>
+      <p>WebHarbor 是一款本地优先、没有广告和分析服务的 iPhone App。3.0 新增可选通知网关；以下说明仅适用于服务可用且主动连接工作区的用户，早期版本可能不包含通知功能。通知可用性取决于部署与设备验证完成。</p>
+      <h2>3.0 可选通知</h2>
+      <p>您主动开启后，notify.lihenry.com 会处理加密的 Apple 推送设备令牌、安装凭据哈希、随机通知路由标识、语言偏好及网站用户/家庭引用，用于发送提醒。对于合账工作区，网关还可能接收加密且有长度限制的摘要（记账人显示名、金额和分类），在允许锁屏详情时显示在提醒中。网关不接收 WebKit 数据仓 UUID、网页登录 Cookie、密码、备注、记录 ID 或其他成员信息；隐藏锁屏详情时只发送通用文案。通知由 Apple APNs 投递。</p>
+      <p>3.0 的 GitHub 连接需要单独通过官方 GitHub App 授权。网关保存加密授权凭据、验证后的 GitHub 身份、所选仓库引用及必要的事件和目标标识，按签名事件筛选任务分配、直接评审请求和失败或超时的 Actions。它不完整同步个人通知中心，也不复制网页登录 Cookie。功能仅在部署和验证完成后开放。</p>
+      <p>创建私有推送入口时，入口名称、HTTPS 起始网址及随机路由会提交到网关。您的服务器或脚本可发送标题、正文和同源目标网址；这些内容加密保存，但展示消息时需要处理，请勿发送密码或密钥。发送凭据保存在本机 Keychain，服务器只保留校验摘要。邀请网站经您确认后取得受限订阅标识，不会取得 APNs 令牌或全局安装凭据。</p>
+      <h2>通知保留与删除</h2>
+      <p>3.0 云端收件箱保存必要的加密消息内容、路由和投递记录，自创建起保留 30 天，本机保留有限缓存。早期版本的本机历史可能不完整，不会虚构恢复。清除通知历史或删除消息会将其从收件箱隐藏，不清除网页数据；删除标记防止同步重试时重新出现，保留记录按期限清理。删除来源时可以一并删除历史。配对票据 180 秒过期，GitHub 授权会话 15 分钟过期。</p>
+      <p>关闭提醒或删除工作区会停用本地路由，离线时排队撤销服务器订阅。GitHub 凭据从活动连接删除；平台暂不可用时，加密凭据可仅为重试撤销而保留。安装凭据及停用引用可能保留以验证身份和防止旧路由复用。可联系我们请求服务器删除，也可在 GitHub 设置撤销 App。通知仅绑定当前设备，设备凭据丢失需重新连接，不自动跨设备恢复。Apple 接受推送不代表 iOS 必然展示。通知数据不用于广告、分析或跟踪，消息打开状态默认不回传给网站。</p>
       <h2>保存在设备上的内容</h2>
       <p>App 将工作区元数据（网址、标题、UUID、日期和图标文件名）保存在 Application Support。自定义图标和下载的图标以本地 PNG 文件保存。每个工作区使用具名 WebKit 数据仓，其中可能包含您打开的网站创建的 Cookie、LocalStorage、IndexedDB 和其他数据。</p>
       <h2>网络请求</h2>
